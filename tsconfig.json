@@ -1,11 +1,24 @@
 {
   "compilerOptions": {
-    "composite": true,
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": ["es2018"],
+    "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "strict": true
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "resolveJsonModule": true,
+    "sourceMap": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "api/**/*.ts",
+    "routes/**/*.ts",
+    "googleAuth/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

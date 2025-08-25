@@ -2,16 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.ts",
+      "src": "api/index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.ts"
+      "dest": "api/index.ts"
     }
   ],
   "installCommand": "npm install",
-  "buildCommand": "npx tsc"
+  "buildCommand": "npx tsc",
+  "excludeFiles": [
+    "node_modules",
+    ".git"
+  ]
 }
