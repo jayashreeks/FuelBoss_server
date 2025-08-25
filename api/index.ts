@@ -2,8 +2,8 @@
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
-import { registerRoutes } from '../routes';
-import { setupAuth } from '../googleAuth';
+import { registerRoutes } from '../routes.js';
+import { setupAuth } from '../googleAuth.js';
 import dotenv from 'dotenv';
 
 // Load environment variables
