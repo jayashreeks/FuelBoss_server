@@ -32,8 +32,8 @@ import {
   type StockEntry,
   type InsertStockEntry,
   stockEntries,
-} from "./shared/schema";
-import { db } from "./db";
+} from "./shared/schema.js";
+import { db } from "./db.js";
 import { eq, and, desc, sql, gte } from "drizzle-orm";
 
 export interface IStorage {
