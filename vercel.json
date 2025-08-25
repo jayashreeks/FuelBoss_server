@@ -13,9 +13,5 @@
     }
   ],
   "installCommand": "npm install",
-  "buildCommand": "npx tsc",
-  "excludeFiles": [
-    "node_modules",
-    ".git"
-  ]
+  "buildCommand": "npx tsc"
 }
