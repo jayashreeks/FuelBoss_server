@@ -16,7 +16,7 @@ app.set('trust proxy', 1);
 
 // CORS configuration for client-server communication
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' || 'https://fuelboss.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
