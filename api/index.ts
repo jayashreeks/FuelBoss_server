@@ -6,6 +6,8 @@ import { registerRoutes } from '../routes.js';
 import { setupAuth } from '../googleAuth.js';
 import dotenv from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 // Load environment variables
 dotenv.config();
@@ -54,6 +56,8 @@ async function startServer() {
 
   // In a production environment, serve the static frontend files
   if (process.env.NODE_ENV === 'production') {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
     const clientDistPath = path.join(__dirname, '..', 'client', 'dist');
     app.use(express.static(clientDistPath));
 
