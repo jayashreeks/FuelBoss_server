@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    // ... other options
     "target": "es2018",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -10,12 +9,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-    // ...
   },
   "include": [
-    "api/**/*.ts",
-    "routes/**/*.ts",
-    "googleAuth/**/*.ts"
+    "api/**/*",
+    "routes.ts",
+    "googleAuth.ts",
+    "storage.ts",
+    "db.ts",
+    "shared/**/*",
+    "drizzle.config.ts"
   ],
   "exclude": [
     "node_modules",
