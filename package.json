@@ -2,7 +2,6 @@
     "name": "fuelboss-server",
     "version": "1.0.0",
     "private": true,
-    "type": "module",
     "scripts": {
         "build": "esbuild api/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
         "start": "npm run build && NODE_ENV=production node dist/index.js",
