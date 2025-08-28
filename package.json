@@ -25,7 +25,8 @@
         "passport-google-oauth20": "^2.0.0",
         "passport-local": "^1.0.0",
         "pg": "^8.16.3",
-        "ws": "^8.18.0"
+        "ws": "^8.18.0",
+        "esbuild": "^0.25.0"
     },
     "devDependencies": {
         "@types/connect-pg-simple": "^7.0.3",
