@@ -44,6 +44,7 @@ export function getSession() {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Only HTTPS in production
       maxAge: sessionTtl,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
   });
 }
