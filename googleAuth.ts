@@ -233,7 +233,7 @@ export async function setupAuth(app: Express) {
     }
   });
 
-  app.get("/api/logout", (req, res) => {
+  app.post("/api/logout", (req, res) => {
     req.logout((err) => {
       if (err) {
         return res.status(500).json({ message: "Error during logout" });
