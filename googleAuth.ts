@@ -25,6 +25,7 @@ export function getSession() {
         secure: false, // Allow HTTP in development
         maxAge: sessionTtl,
       },
+      proxy: true,
     });
   }
   
