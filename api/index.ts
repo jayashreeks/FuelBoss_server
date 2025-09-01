@@ -56,8 +56,11 @@ async function startServer() {
 
   // In a production environment, serve the static frontend files
   if (process.env.NODE_ENV === 'production') {
-  
-    const clientDistPath = path.join(process.cwd(), '..', 'client', 'dist');
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+        
+    // 🚨 This is the new, more reliable path
+    const clientDistPath = path.resolve(__dirname, '..', 'client', 'dist'); 
     app.use(express.static(clientDistPath));
 
     // All unhandled routes will be served by the client's index.html
