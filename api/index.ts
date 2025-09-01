@@ -1,7 +1,6 @@
 // server/index.ts
 import express from 'express';
 import cors from 'cors';
-import session from 'express-session';
 import { registerRoutes } from '../routes.js';
 import { setupAuth } from '../googleAuth.js';
 import dotenv from 'dotenv';
@@ -29,19 +28,6 @@ async function startServer() {
   // Body parsing middleware
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
-  // Session configuration
-  app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production' ? true : false,
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    },
-  }));
 
   // Setup Google OAuth
   setupAuth(app);
