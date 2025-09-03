@@ -448,26 +448,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get attendants for nozzle readings
+  //Get attendants for retail outlet
   app.get("/api/manager/attendants", (req: any, res, next) => {
-    console.log("Manager attendants request - session:", {
-      managerId: req.session?.managerId,
+    console.log("Attendants request - session:", {
+      userId: req.user?.id,
+      userRole: req.user?.role,
       userType: req.session?.userType,
       sessionKeys: Object.keys(req.session || {})
     });
-    if (!req.session?.managerId || req.session?.userType !== "manager") {
-      return res.status(401).json({ message: "Manager authentication required" });
+
+    // Check if the user is a manager or a dealer
+    if (req.session?.userType === "manager" && req.session?.managerId) {
+      req.user = { id: req.session.managerId, type: "manager" };
+    } else if (req.user?.role === "owner") {
+      req.user = { id: req.user?.id, type: "dealer" };
+    } else {
+      // If neither, return a 401 Unauthorized error
+      return res.status(401).json({ message: "Authentication required" });
     }
+
     next();
   }, async (req: any, res) => {
     try {
-      const managerId = req.session.managerId;
-      const manager = await storage.getStaffById(managerId);
-      if (!manager) {
-        return res.status(401).json({ message: "Manager not found" });
+      const user = await storage.getStaffById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ message: `${req.user.type} not found` });
       }
-      const allStaff = await storage.getStaffByRetailOutletId(manager.retailOutletId);
+
+      // Get staff from the user's retail outlet
+      const allStaff = await storage.getStaffByRetailOutletId(user.retailOutletId);
+
+      // Filter for attendants
       const attendants = allStaff.filter(staff => staff.role === 'attendant' && staff.isActive);
+
       res.json(attendants);
     } catch (error) {
       console.error("Error fetching attendants:", error);
