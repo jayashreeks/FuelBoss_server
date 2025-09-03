@@ -474,6 +474,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch attendants" });
     }
   });
+  
 
   // Staff routes
   app.get('/api/staff', isAuthenticated, async (req: any, res) => {
@@ -501,6 +502,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertStaffSchema.parse({
         ...req.body,
         retailOutletId: outlet.id,
+        userId: userId
       });
       const staffMember = await storage.createStaff(validatedData);
       res.json(staffMember);
@@ -543,8 +545,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete('/api/staff/:id', isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
+      const userId = req.user.id;
+
+      // 1. Get the retail outlet of the authenticated user (dealer)
+      const outlet = await storage.getRetailOutletByOwnerId(userId);
+      if (!outlet) {
+          return res.status(404).json({ message: "Retail outlet not found for this user." });
+      }
+
+      // 2. Get the staff member to be deleted
+      const staffMember = await storage.getStaffById(id);
+      if (!staffMember) {
+          return res.status(404).json({ message: "Staff member not found." });
+      }
+
+      // 3. 🚨 SECURITY CHECK: Ensure the staff member belongs to the dealer's outlet
+      if (staffMember.retailOutletId !== outlet.id) {
+          return res.status(403).json({ message: "Forbidden: You don't have permission to delete this staff member." });
+      }
+      
+      // 4. Proceed with deletion
       await storage.deleteStaff(id);
-      res.json({ message: "Staff member deleted successfully" });
+      res.json({ message: "Staff member deleted successfully." });
     } catch (error) {
       console.error("Error deleting staff member:", error);
       res.status(500).json({ message: "Failed to delete staff member" });
